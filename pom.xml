@@ -12,7 +12,7 @@
     <artifactId>tenants</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>tenants</name>
-    <description>Restfull API for tenants application</description>
+    <description>Restful API for tenants application</description>
 
     <properties>
         <java.version>11</java.version>
@@ -62,6 +62,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!--compiler plugin for java 11 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -78,6 +79,8 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
+            <!--plugin for unit tests-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -87,6 +90,8 @@
                     </argLine>
                 </configuration>
             </plugin>
+
+            <!--plugin for integration tests-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
