@@ -7,6 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
+      # openjdk11 works fine, jdk8 have bugs with maven on circleci
       - image: circleci/openjdk:11.0.1-jdk
 
       # Specify service dependencies here if necessary
