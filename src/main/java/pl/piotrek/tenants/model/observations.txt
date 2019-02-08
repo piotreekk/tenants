@@ -1,0 +1,2 @@
+1. ManyToMany relationship
+    - prefer Set<T> than List<T> to create many to many associations (less overhead, read more: https://thoughts-on-java.org/association-mappings-bag-list-set/)
