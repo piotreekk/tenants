@@ -6,5 +6,5 @@ import pl.piotrek.tenants.model.House;
 
 @Repository
 public interface HouseRepository extends JpaRepository<House, Long> {
-
+    House findByAddress(String address);
 }
