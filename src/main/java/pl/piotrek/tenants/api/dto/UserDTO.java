@@ -1,9 +1,9 @@
-package pl.piotrek.tenants.api;
+package pl.piotrek.tenants.api.dto;
 
 import lombok.Data;
 
 @Data
-public class UserDto {
+public class UserDTO {
     private long id;
     private String firstName;
     private String lastName;

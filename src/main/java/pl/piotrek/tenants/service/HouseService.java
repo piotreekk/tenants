@@ -1,11 +1,9 @@
 package pl.piotrek.tenants.service;
 
-import org.springframework.stereotype.Service;
 import pl.piotrek.tenants.model.House;
 
 import java.util.List;
 
-@Service
 public interface HouseService {
     House getById(Long id);
 
@@ -13,4 +11,5 @@ public interface HouseService {
 
     List<House> getAll();
 
+    House addHouse(House house);
 }

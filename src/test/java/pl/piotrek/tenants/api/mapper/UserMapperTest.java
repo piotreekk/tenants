@@ -1,8 +1,8 @@
-package pl.piotrek.tenants.mapper;
+package pl.piotrek.tenants.api.mapper;
 
 
 import org.junit.Test;
-import pl.piotrek.tenants.api.UserDto;
+import pl.piotrek.tenants.api.dto.UserDTO;
 import pl.piotrek.tenants.model.User;
 
 
@@ -23,7 +23,7 @@ public class UserMapperTest {
 
 
         // when
-        UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
+        UserDTO userDto = UserMapper.INSTANCE.userToUserDto(user);
 
         // then
         assertEquals(ID, userDto.getId());
