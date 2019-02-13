@@ -3,7 +3,7 @@ package pl.piotrek.tenants.api.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import pl.piotrek.tenants.api.dto.UserDTO;
-import pl.piotrek.tenants.model.User;
+import pl.piotrek.tenants.entity.User;
 
 @Mapper
 public interface UserMapper {

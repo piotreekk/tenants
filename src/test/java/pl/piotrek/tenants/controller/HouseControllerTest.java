@@ -1,30 +1,20 @@
 package pl.piotrek.tenants.controller;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.piotrek.tenants.api.assembler.HouseResourceAssembler;
 import pl.piotrek.tenants.api.mapper.HouseMapper;
-import pl.piotrek.tenants.model.House;
-import pl.piotrek.tenants.repository.HouseRepository;
+import pl.piotrek.tenants.entity.House;
 import pl.piotrek.tenants.service.HouseService;
-import pl.piotrek.tenants.service.impl.HouseServiceImpl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
-
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -88,8 +78,8 @@ public class HouseControllerTest {
         when(houseService.getById(anyLong())).thenReturn(house);
 
         mockMvc.perform(get("/api/house/1").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-//                .andDo(MockMvcResultHandlers.print());
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
 //                .andReturn().getResponse().getContentAsString();
 //                .andExpect(jsonPath("$.city").value("Lublin"));
 

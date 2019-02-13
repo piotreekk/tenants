@@ -1,11 +1,14 @@
-package pl.piotrek.tenants.model;
+package pl.piotrek.tenants.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(of = "id")
 @Entity
 public class House {
     @Id
@@ -13,7 +16,7 @@ public class House {
     private Long id;
     private String city;
     private String address;
-    @ManyToMany(mappedBy = "houses")
-    private Set<User> inhabitants;
+    @ManyToMany(mappedBy = "houses", fetch = FetchType.EAGER)
+    private Set<User> inhabitants = new HashSet<>();
 
 }

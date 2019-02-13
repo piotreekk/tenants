@@ -1,6 +1,6 @@
 package pl.piotrek.tenants.service;
 
-import pl.piotrek.tenants.model.House;
+import pl.piotrek.tenants.entity.House;
 
 import java.util.List;
 
@@ -12,4 +12,6 @@ public interface HouseService {
     List<House> getAll();
 
     House addHouse(House house);
+
+    List<House> getUserHouses(Long id);
 }

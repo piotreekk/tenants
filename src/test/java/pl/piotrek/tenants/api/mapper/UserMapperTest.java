@@ -3,7 +3,7 @@ package pl.piotrek.tenants.api.mapper;
 
 import org.junit.Test;
 import pl.piotrek.tenants.api.dto.UserDTO;
-import pl.piotrek.tenants.model.User;
+import pl.piotrek.tenants.entity.User;
 
 
 import static org.junit.Assert.assertEquals;

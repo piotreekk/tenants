@@ -1,7 +1,7 @@
 package pl.piotrek.tenants.service.impl;
 
 import org.springframework.stereotype.Service;
-import pl.piotrek.tenants.model.House;
+import pl.piotrek.tenants.entity.House;
 import pl.piotrek.tenants.repository.HouseRepository;
 import pl.piotrek.tenants.service.HouseService;
 
@@ -31,7 +31,14 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    public List<House> getUserHouses(Long id) {
+        return houseRepository.findAllByInhabitantsId(id);
+    }
+
+    @Override
     public House addHouse(House house) {
         return houseRepository.save(house);
     }
+
+
 }

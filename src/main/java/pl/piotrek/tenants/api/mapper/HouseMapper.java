@@ -3,7 +3,7 @@ package pl.piotrek.tenants.api.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import pl.piotrek.tenants.api.dto.HouseDTO;
-import pl.piotrek.tenants.model.House;
+import pl.piotrek.tenants.entity.House;
 
 @Mapper(componentModel = "spring")
 public interface HouseMapper {

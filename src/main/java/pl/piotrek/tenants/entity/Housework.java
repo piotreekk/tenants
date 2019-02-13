@@ -1,4 +1,4 @@
-package pl.piotrek.tenants.model;
+package pl.piotrek.tenants.entity;
 
 import lombok.Data;
 

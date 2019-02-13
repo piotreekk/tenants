@@ -1,16 +1,19 @@
 package pl.piotrek.tenants.controller;
 
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.piotrek.tenants.api.assembler.HouseResourceAssembler;
 import pl.piotrek.tenants.api.dto.HouseDTO;
+import pl.piotrek.tenants.api.dto.HouseList;
 import pl.piotrek.tenants.api.mapper.HouseMapper;
-import pl.piotrek.tenants.model.House;
+import pl.piotrek.tenants.entity.House;
 import pl.piotrek.tenants.service.HouseService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +21,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/house", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-
+@RequestMapping(value = "/api/house", produces = MediaTypes.HAL_JSON_VALUE)
 public class HouseController {
     private HouseService houseService;
     private HouseMapper houseMapper;
@@ -32,29 +34,47 @@ public class HouseController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getHouseList(){
-        List<Resource<HouseDTO>> response = houseService.getAll().stream()
+    @ResponseStatus(HttpStatus.OK)
+    public HouseList getHouseList(){
+        List<Resource<HouseDTO>> housesList = houseService.getAll().stream()
+                .map(houseMapper::houseToHouseDto)
+                .map(assembler::toResource)
+                .collect(Collectors.toList());
+        HouseList resultList = new HouseList();
+        resultList.setHouses(housesList);
+        resultList.add(linkTo(methodOn(HouseController.class).getHouseList()).withSelfRel());
+
+        return resultList;
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Resource<HouseDTO> getHouseById(@PathVariable Long id){
+        return assembler.toResource(houseMapper.houseToHouseDto(houseService.getById(id)));
+    }
+
+
+    @GetMapping("/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public HouseList houseListForUser(@PathVariable Long id){
+        List<Resource<HouseDTO>> housesList = houseService.getUserHouses(id).stream()
                 .map(houseMapper::houseToHouseDto)
                 .map(assembler::toResource)
                 .collect(Collectors.toList());
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+        HouseList resultList = new HouseList();
+        resultList.setHouses(housesList);
+        resultList.add(linkTo(methodOn(HouseController.class).houseListForUser(id)).withSelfRel());
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Resource<HouseDTO>> getHouseById(@PathVariable Long id){
-        HouseDTO response = houseMapper.houseToHouseDto(houseService.getById(id));
-        return new ResponseEntity<>(assembler.toResource(response), HttpStatus.OK);
+        return resultList;
     }
-
 
     @PostMapping("")
-    public ResponseEntity<?> addHouse(@RequestBody HouseDTO houseDTO){
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Resource<HouseDTO>> addHouse(@Valid @RequestBody HouseDTO houseDTO) {
         House houseEntity = houseMapper.houseDtoToHouse(houseDTO);
         HouseDTO created = houseMapper.houseToHouseDto(houseService.addHouse(houseEntity));
-
-        return ResponseEntity
-                .created(linkTo(methodOn(HouseController.class).getHouseById(created.getId())).toUri())
+        return ResponseEntity.created(linkTo(methodOn(HouseController.class).getHouseById(created.getId())).toUri())
                 .body(assembler.toResource(created));
     }
 
