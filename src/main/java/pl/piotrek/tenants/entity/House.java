@@ -16,7 +16,16 @@ public class House {
     private Long id;
     private String city;
     private String address;
-    @ManyToMany(mappedBy = "houses", fetch = FetchType.EAGER)
+
+    @ManyToMany(mappedBy = "houses", cascade = CascadeType.ALL)
     private Set<User> inhabitants = new HashSet<>();
 
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
+    private Set<Housework> houseworks;
+
+    // helper method to add inhabitant
+    public void addInhabitant(User user){
+        inhabitants.add(user);
+        user.getHouses().add(this);
+    }
 }

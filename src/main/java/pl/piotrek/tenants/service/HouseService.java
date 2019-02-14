@@ -14,4 +14,6 @@ public interface HouseService {
     House addHouse(House house);
 
     List<House> getUserHouses(Long id);
+
+    void delete(Long id);
 }

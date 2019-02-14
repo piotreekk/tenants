@@ -40,5 +40,8 @@ public class HouseServiceImpl implements HouseService {
         return houseRepository.save(house);
     }
 
-
+    @Override
+    public void delete(Long id) {
+        houseRepository.deleteById(id);
+    }
 }

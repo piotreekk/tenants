@@ -19,7 +19,6 @@ public class User {
     private String username;
     private String password;
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_house",
             joinColumns = { @JoinColumn(name="fk_user") },
@@ -35,5 +34,11 @@ public class User {
     @OneToMany
     private Set<HouseworkRating> ratings = new HashSet<>();
 
+
+    // helper method to add house
+    public void addHouse(House house){
+        houses.add(house);
+        house.getInhabitants().add(this);
+    }
 
 }

@@ -2,7 +2,6 @@ package pl.piotrek.tenants.controller;
 
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +55,7 @@ public class HouseController {
 
     @GetMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public HouseList houseListForUser(@PathVariable Long id){
+    public HouseList getHouseListForUser(@PathVariable Long id){
         List<Resource<HouseDTO>> housesList = houseService.getUserHouses(id).stream()
                 .map(houseMapper::houseToHouseDto)
                 .map(assembler::toResource)
@@ -64,7 +63,7 @@ public class HouseController {
 
         HouseList resultList = new HouseList();
         resultList.setHouses(housesList);
-        resultList.add(linkTo(methodOn(HouseController.class).houseListForUser(id)).withSelfRel());
+        resultList.add(linkTo(methodOn(HouseController.class).getHouseListForUser(id)).withSelfRel());
 
         return resultList;
     }
@@ -79,8 +78,8 @@ public class HouseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteHouse(@RequestBody HouseDTO houseDTO){
-
+    public ResponseEntity<?> deleteHouse(@PathVariable Long id){
+        houseService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
