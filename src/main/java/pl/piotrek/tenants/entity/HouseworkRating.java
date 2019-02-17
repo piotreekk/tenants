@@ -3,6 +3,7 @@ package pl.piotrek.tenants.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -12,8 +13,10 @@ public class HouseworkRating {
     private Long id;
 
     @OneToOne
+    @NotNull
     private Housework housework;
 
     @ManyToOne
+    @NotNull
     private User user;
 }

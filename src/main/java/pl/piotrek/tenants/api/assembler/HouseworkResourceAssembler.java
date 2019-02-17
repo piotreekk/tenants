@@ -23,10 +23,12 @@ public class HouseworkResourceAssembler implements ResourceAssembler<HouseworkDT
         List<Link> links = new ArrayList<>();
         links.add(linkTo(methodOn(HouseworkController.class).getHousework(houseworkDTO.getId())).withSelfRel());
 
+        // OPTIONAL LINKS
         if(houseworkDTO.getStatus() == HouseworkStatus.TO_DO)
             links.add(linkTo(methodOn(HouseworkController.class).assignUser(houseworkDTO.getId(), 1L)).withRel("assign"));
         else if(houseworkDTO.getStatus() == HouseworkStatus.IN_PROGRESS)
             links.add(linkTo(methodOn(HouseworkController.class).finishHousework(houseworkDTO.getId())).withRel("finish"));
+        //
 
         links.add(linkTo(methodOn(HouseworkController.class).getHouseworks(houseworkDTO.getHouseId())).withRel("houseworks"));
         links.add(linkTo(methodOn(HouseController.class).getHouseById(houseworkDTO.getHouseId())).withRel("house"));

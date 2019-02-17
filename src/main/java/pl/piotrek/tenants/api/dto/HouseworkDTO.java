@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import pl.piotrek.tenants.util.HouseworkStatus;
 
+
 @Data
 public class HouseworkDTO {
     @JsonIgnore

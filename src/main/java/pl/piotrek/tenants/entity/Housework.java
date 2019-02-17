@@ -4,6 +4,7 @@ import lombok.Data;
 import pl.piotrek.tenants.util.HouseworkStatus;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class Housework {
     private Set<User> users = new HashSet<>();
 
     @ManyToOne
+    @NotNull
     private House house;
 
     // helper method to assign user to housework
