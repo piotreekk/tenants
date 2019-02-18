@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/house", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaTypes.HAL_JSON_VALUE})
 public class HouseController {
@@ -40,7 +40,6 @@ public class HouseController {
         this.clientService = clientService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public HouseList getHouseList(){
