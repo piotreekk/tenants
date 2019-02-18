@@ -3,6 +3,7 @@ package pl.piotrek.tenants.controller;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pl.piotrek.tenants.api.assembler.HouseworkResourceAssembler;
 import pl.piotrek.tenants.api.dto.HouseworkDTO;
@@ -17,7 +18,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/housework", produces = MediaTypes.HAL_JSON_VALUE)
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(value = "/api/housework", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaTypes.HAL_JSON_VALUE})
 public class HouseworkController {
     private HouseworkService houseworkService;
     private HouseworkResourceAssembler assembler;

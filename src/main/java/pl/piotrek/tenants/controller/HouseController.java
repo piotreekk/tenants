@@ -3,6 +3,7 @@ package pl.piotrek.tenants.controller;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +26,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/api/house", produces = MediaTypes.HAL_JSON_VALUE)
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping(value = "/api/house", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaTypes.HAL_JSON_VALUE})
 public class HouseController {
     private HouseService houseService;
     private HouseMapper houseMapper;
@@ -100,8 +102,7 @@ public class HouseController {
                         oauthToken.getAuthorizedClientRegistrationId(),
                         oauthToken.getName());
 
-        String accessToken = client.getAccessToken().getTokenValue();
-
-        return accessToken + " TYPE: " + client.getAccessToken().getTokenType().getValue();
+        return " TYPE: " + client.getAccessToken().getTokenType().getValue() + " " + client.getAccessToken().getTokenValue()
+                + "TYPE RefreshToken: " + client.getRefreshToken();
     }
 }
