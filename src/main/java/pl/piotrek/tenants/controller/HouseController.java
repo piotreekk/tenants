@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import pl.piotrek.tenants.api.assembler.HouseResourceAssembler;
 import pl.piotrek.tenants.api.dto.HouseDTO;
@@ -27,11 +30,13 @@ public class HouseController {
     private HouseService houseService;
     private HouseMapper houseMapper;
     private HouseResourceAssembler assembler;
+    private OAuth2AuthorizedClientService clientService;
 
-    public HouseController(HouseService houseService, HouseMapper houseMapper, HouseResourceAssembler assembler) {
+    public HouseController(HouseService houseService, HouseMapper houseMapper, HouseResourceAssembler assembler, OAuth2AuthorizedClientService clientService) {
         this.houseService = houseService;
         this.houseMapper = houseMapper;
         this.assembler = assembler;
+        this.clientService = clientService;
     }
 
     @GetMapping("/all")
@@ -88,6 +93,15 @@ public class HouseController {
     @GetMapping("/lol")
     public String auth(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getPrincipal().toString();
+        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken)authentication;
+
+        OAuth2AuthorizedClient client =
+                clientService.loadAuthorizedClient(
+                        oauthToken.getAuthorizedClientRegistrationId(),
+                        oauthToken.getName());
+
+        String accessToken = client.getAccessToken().getTokenValue();
+
+        return accessToken + " TYPE: " + client.getAccessToken().getTokenType().getValue();
     }
 }

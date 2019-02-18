@@ -1,5 +1,6 @@
 package pl.piotrek.tenants.controller;
 
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/api/housework")
+@RequestMapping(value = "/api/housework", produces = MediaTypes.HAL_JSON_VALUE)
 public class HouseworkController {
     private HouseworkService houseworkService;
     private HouseworkResourceAssembler assembler;
@@ -32,6 +33,7 @@ public class HouseworkController {
     public Resource<HouseworkDTO> getHousework(@PathVariable Long id) {
         HouseworkDTO houseworkDTO = mapper.houseworkToHouseworkDTO(houseworkService.getHousework(id));
         return assembler.toResource(houseworkDTO);
+//        return houseworkDTO;
     }
 
     @GetMapping("/house/{id}")
