@@ -1,12 +1,12 @@
 spring:
 
-  security:
-    oauth2:
-      client:
-        registration:
-          facebook:
-            client-id: 237512207133677
-            client-secret: 6dcc5c71c28a4b4c30fdf172d1e5c107
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          facebook:
+#            client-id: 237512207133677
+#            client-secret: 6dcc5c71c28a4b4c30fdf172d1e5c107
 
   h2:
     console:
