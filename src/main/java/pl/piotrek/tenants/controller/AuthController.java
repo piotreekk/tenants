@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.piotrek.tenants.api.dto.LoginForm;
 import pl.piotrek.tenants.api.dto.RegisterForm;
 import pl.piotrek.tenants.api.response.ApiResponse;
@@ -24,10 +25,11 @@ import pl.piotrek.tenants.repository.UserRepository;
 import pl.piotrek.tenants.security.JwtTokenProvider;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
@@ -47,14 +49,12 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
         );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
@@ -83,12 +83,12 @@ public class AuthController {
 
         User result = userRepository.save(user);
 
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentContextPath().path("/api/users/{username}")
-//                .buildAndExpand(result.getUsername()).toUri();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/api/user/")
+                .buildAndExpand(result.getId()).toUri();
 
         return ResponseEntity
-                .ok()
+                .created(location)
                 .body(new ApiResponse(true, "User registered successfully"));
     }
 }
