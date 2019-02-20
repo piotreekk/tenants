@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import pl.piotrek.tenants.entity.House;
+import pl.piotrek.tenants.model.entity.House;
 import pl.piotrek.tenants.repository.HouseRepository;
 import pl.piotrek.tenants.service.impl.HouseServiceImpl;
 
@@ -65,4 +65,6 @@ public class HouseServiceTest {
         assertEquals(ADDRESS, houseFromService.getAddress());
 
     }
+
+
 }

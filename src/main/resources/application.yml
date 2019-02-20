@@ -1,13 +1,5 @@
 spring:
 
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          facebook:
-#            client-id: 237512207133677
-#            client-secret: 6dcc5c71c28a4b4c30fdf172d1e5c107
-
   h2:
     console:
       enabled: true
@@ -27,3 +19,7 @@ spring:
         show_sql: true
         format_sql: true
         type: trace
+
+app:
+  jwtSecret: JWTSuperSecretKey
+  jwtExpirationInMs: 900000

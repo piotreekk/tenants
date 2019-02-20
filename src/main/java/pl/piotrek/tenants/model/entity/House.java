@@ -1,4 +1,4 @@
-package pl.piotrek.tenants.entity;
+package pl.piotrek.tenants.model.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,6 +24,7 @@ public class House {
     private Set<Housework> houseworks;
 
     // helper method to add inhabitant
+
     public void addInhabitant(User user){
         inhabitants.add(user);
         user.getHouses().add(this);
