@@ -11,7 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.piotrek.tenants.security.JwtAuthenticationEntryPoint;
+import pl.piotrek.tenants.security.JwtAuthenticationFilter;
 import pl.piotrek.tenants.security.UserDetailsServiceImpl;
 
 @Configuration
@@ -19,16 +21,13 @@ import pl.piotrek.tenants.security.UserDetailsServiceImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
     private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
-//
-//    @Bean
-//    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-//        return new JwtAuthenticationFilter();
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -48,9 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .disable()
                 .cors()
                     .and()
-//                .exceptionHandling()
-//                    .authenticationEntryPoint(unauthorizedHandler)
-//                    .and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(unauthorizedHandler)
+                    .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
@@ -65,12 +64,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js"
                     ).permitAll()
-                    .anyRequest()
+                    .antMatchers("/api/auth/**").permitAll()
+                .anyRequest()
                 .authenticated()
                     .and()
                 .httpBasic();
 
-//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Autowired
@@ -78,12 +78,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
-//                .inMemoryAuthentication()
-//                    .passwordEncoder(passwordEncoder())
-//                    .withUser("user")
-//                    .password(passwordEncoder().encode("password"))
-//                    .roles("USER");
-
     }
 
 

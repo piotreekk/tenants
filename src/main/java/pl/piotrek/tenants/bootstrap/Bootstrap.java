@@ -20,7 +20,8 @@ import java.util.List;
 
 
 @Component
-@Transactional // transactional umozliwia mi zastosowanie lazy initialization w User
+@Transactional
+// transactional umozliwia mi zastosowanie lazy initialization w User
 public class Bootstrap implements CommandLineRunner {
     private HouseRepository houseRepository;
     private UserRepository userRepository;
@@ -42,6 +43,7 @@ public class Bootstrap implements CommandLineRunner {
         addHouseForUser();
         addSingleHouse();
         addHousework();
+        addRoles();
     }
 
     private void addRoles(){
@@ -59,6 +61,7 @@ public class Bootstrap implements CommandLineRunner {
         user.setFirstName("Piotr");
         user.setLastName("Xoxoxoox");
         user.setEmail("piotrek@wp.pl");
+
         user.setPassword(passwordEncoder.encode("password"));
         userRepository.save(user);
 
