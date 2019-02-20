@@ -19,14 +19,12 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-@CrossOrigin
 @RestController
 @RequestMapping(value = "/api/house", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE, MediaTypes.HAL_JSON_VALUE})
 public class HouseController {
     private HouseService houseService;
     private HouseMapper houseMapper;
     private HouseResourceAssembler assembler;
-//    private OAuth2AuthorizedClientService clientService;
 
     public HouseController(HouseService houseService, HouseMapper houseMapper, HouseResourceAssembler assembler) {
         this.houseService = houseService;
@@ -84,18 +82,5 @@ public class HouseController {
         houseService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-//
-//    @GetMapping("/lol")
-//    public String auth(){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken)authentication;
-//
-//        OAuth2AuthorizedClient client =
-//                clientService.loadAuthorizedClient(
-//                        oauthToken.getAuthorizedClientRegistrationId(),
-//                        oauthToken.getName());
-//
-//        return " TYPE: " + client.getAccessToken().getTokenType().getValue() + " " + client.getAccessToken().getTokenValue()
-//                + "TYPE RefreshToken: " + client.getRefreshToken();
-//    }
+
 }
