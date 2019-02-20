@@ -10,7 +10,9 @@ public class HouseworkDTO {
     private long id;
     private String name;
     private String description;
-    private String date;
+    private String scheduledDate;
+    private String createdDate;
+    private String updatedDate;
     @JsonIgnore
     private long houseId;
     private HouseworkStatus status;

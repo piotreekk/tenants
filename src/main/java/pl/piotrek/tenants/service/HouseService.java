@@ -1,6 +1,6 @@
 package pl.piotrek.tenants.service;
 
-import pl.piotrek.tenants.entity.House;
+import pl.piotrek.tenants.model.entity.House;
 
 import java.util.List;
 

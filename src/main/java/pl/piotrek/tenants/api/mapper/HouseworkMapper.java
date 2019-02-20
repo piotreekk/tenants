@@ -2,9 +2,10 @@ package pl.piotrek.tenants.api.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 import pl.piotrek.tenants.api.dto.HouseworkDTO;
-import pl.piotrek.tenants.entity.Housework;
+import pl.piotrek.tenants.model.entity.Housework;
 
 @Mapper(componentModel = "spring")
 public interface HouseworkMapper {
@@ -12,6 +13,11 @@ public interface HouseworkMapper {
 
     Housework houseworkDtoToHousework(HouseworkDTO houseworkDTO);
 
-    @Mapping(source = "house.id", target = "houseId")
+    @Mappings({
+            @Mapping(source = "house.id", target = "houseId"),
+            @Mapping(source = "createdDate",  target = "createdDate", dateFormat = "yyyy-MM-dd'T'HH:mm"),
+            @Mapping(source = "updatedDate",  target = "updatedDate", dateFormat = "yyyy-MM-dd'T'HH:mm"),
+
+    })
     HouseworkDTO houseworkToHouseworkDTO(Housework housework);
 }

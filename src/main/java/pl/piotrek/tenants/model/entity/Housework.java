@@ -1,6 +1,7 @@
-package pl.piotrek.tenants.entity;
+package pl.piotrek.tenants.model.entity;
 
 import lombok.Data;
+import pl.piotrek.tenants.model.DateAudit;
 import pl.piotrek.tenants.util.HouseworkStatus;
 
 import javax.persistence.*;
@@ -11,13 +12,14 @@ import java.util.Set;
 
 @Data
 @Entity
-public class Housework {
+public class Housework extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String description;
-    private LocalDate date;
+    private LocalDate scheduledDate;
+
     @Enumerated(EnumType.STRING)
     private HouseworkStatus status;
 
@@ -33,4 +35,5 @@ public class Housework {
         users.add(user);
         user.getHouseworks().add(this);
     }
+
 }

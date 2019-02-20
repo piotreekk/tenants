@@ -1,8 +1,8 @@
 package pl.piotrek.tenants.service.impl;
 
 import org.springframework.stereotype.Service;
-import pl.piotrek.tenants.entity.Housework;
-import pl.piotrek.tenants.entity.User;
+import pl.piotrek.tenants.model.entity.Housework;
+import pl.piotrek.tenants.model.entity.User;
 import pl.piotrek.tenants.repository.HouseworkRepository;
 import pl.piotrek.tenants.repository.UserRepository;
 import pl.piotrek.tenants.service.HouseworkService;
@@ -44,6 +44,9 @@ public class HouseworkServiceImpl implements HouseworkService {
     @Override
     public Housework finishHousework(Long houseworkId) {
         Housework housework = houseworkRepository.findById(houseworkId).get();
+        if(housework.getStatus() != HouseworkStatus.IN_PROGRESS)
+            throw new RuntimeException("Can't finish housework not in progress!");
+
         housework.setStatus(HouseworkStatus.FINISHED);
 
         return houseworkRepository.save(housework);

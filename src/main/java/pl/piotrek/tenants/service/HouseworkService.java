@@ -1,7 +1,7 @@
 package pl.piotrek.tenants.service;
 
 
-import pl.piotrek.tenants.entity.Housework;
+import pl.piotrek.tenants.model.entity.Housework;
 
 import java.util.List;
 

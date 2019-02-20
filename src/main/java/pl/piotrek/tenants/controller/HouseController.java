@@ -10,7 +10,7 @@ import pl.piotrek.tenants.api.assembler.HouseResourceAssembler;
 import pl.piotrek.tenants.api.dto.HouseDTO;
 import pl.piotrek.tenants.api.dto.HouseList;
 import pl.piotrek.tenants.api.mapper.HouseMapper;
-import pl.piotrek.tenants.entity.House;
+import pl.piotrek.tenants.model.entity.House;
 import pl.piotrek.tenants.service.HouseService;
 
 import javax.validation.Valid;
