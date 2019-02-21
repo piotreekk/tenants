@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import pl.piotrek.tenants.api.dto.HouseworkDTO;
 import pl.piotrek.tenants.controller.HouseController;
 import pl.piotrek.tenants.controller.HouseworkController;
+import pl.piotrek.tenants.security.UserPrincipal;
 import pl.piotrek.tenants.util.HouseworkStatus;
 
 import java.util.ArrayList;
@@ -17,6 +18,11 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @Component
 public class HouseworkResourceAssembler implements ResourceAssembler<HouseworkDTO, Resource<HouseworkDTO>> {
+    // Tak naprawde ten parametr jest nigdy nie uwany. userPrincipal jest do kontrolera wczytywany zawsze z kontekstu.
+    // Musiałem go stworzyć, aby coś przekazac do metody
+    // Można zrobić funkcję opakowującą, lub adnotacje @CurrentUser zastosowac w kontekscie całego kontrollera a nie konkretnej metody
+    // ale nie widzę na razie w tym nic bardzo złego
+    private UserPrincipal userPrincipal;
 
     @Override
     public Resource<HouseworkDTO> toResource(HouseworkDTO houseworkDTO) {
@@ -25,7 +31,7 @@ public class HouseworkResourceAssembler implements ResourceAssembler<HouseworkDT
 
         // OPTIONAL LINKS
         if(houseworkDTO.getStatus() == HouseworkStatus.TO_DO)
-            links.add(linkTo(methodOn(HouseworkController.class).assignUser(houseworkDTO.getId(), 1L)).withRel("assign"));
+            links.add(linkTo(methodOn(HouseworkController.class).assignUser(houseworkDTO.getId(), userPrincipal)).withRel("assign"));
         else if(houseworkDTO.getStatus() == HouseworkStatus.IN_PROGRESS)
             links.add(linkTo(methodOn(HouseworkController.class).finishHousework(houseworkDTO.getId())).withRel("finish"));
         //

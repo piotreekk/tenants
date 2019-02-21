@@ -8,11 +8,8 @@ public class TenantsApplicationTests {
 
     @Test
     public void contextLoads() {
+
     }
-
-
-
-
 
 }
 

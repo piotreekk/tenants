@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import pl.piotrek.tenants.api.dto.UserDTO;
 import pl.piotrek.tenants.model.entity.User;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 

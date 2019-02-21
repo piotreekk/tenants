@@ -81,11 +81,11 @@ public class AuthController {
 
         user.setRoles(Collections.singleton(userRole));
 
-        User result = userRepository.save(user);
+        User saved = userRepository.save(user);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/user/")
-                .buildAndExpand(result.getId()).toUri();
+                .buildAndExpand(saved.getId()).toUri();
 
         return ResponseEntity
                 .created(location)

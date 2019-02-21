@@ -30,10 +30,18 @@ public class Housework extends DateAudit {
     @NotNull
     private House house;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "housework", fetch = FetchType.LAZY)
+    private Set<HouseworkRating> ratings = new HashSet<>();
+
     // helper method to assign user to housework
     public void addUserToHousework(User user){
         users.add(user);
         user.getHouseworks().add(this);
+    }
+
+    public void addRateToHousework(HouseworkRating rating){
+        ratings.add(rating);
+        rating.setHousework(this);
     }
 
 }
