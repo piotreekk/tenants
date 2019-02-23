@@ -17,7 +17,7 @@ public class House {
     private String city;
     private String address;
 
-    @ManyToMany(mappedBy = "houses", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "houses")
     private Set<User> inhabitants = new HashSet<>();
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)

@@ -2,7 +2,7 @@ package pl.piotrek.tenants.model.entity;
 
 import lombok.Data;
 import pl.piotrek.tenants.model.DateAudit;
-import pl.piotrek.tenants.util.HouseworkStatus;
+import pl.piotrek.tenants.model.HouseworkStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

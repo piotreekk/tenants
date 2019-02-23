@@ -3,6 +3,7 @@ package pl.piotrek.tenants.bootstrap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.piotrek.tenants.model.HouseworkStatus;
 import pl.piotrek.tenants.model.RoleName;
 import pl.piotrek.tenants.model.entity.House;
 import pl.piotrek.tenants.model.entity.Housework;
@@ -12,7 +13,6 @@ import pl.piotrek.tenants.repository.HouseRepository;
 import pl.piotrek.tenants.repository.HouseworkRepository;
 import pl.piotrek.tenants.repository.RoleRepository;
 import pl.piotrek.tenants.repository.UserRepository;
-import pl.piotrek.tenants.util.HouseworkStatus;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;

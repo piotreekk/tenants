@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import pl.piotrek.tenants.api.dto.HouseworkDTO;
 import pl.piotrek.tenants.controller.HouseController;
 import pl.piotrek.tenants.controller.HouseworkController;
+import pl.piotrek.tenants.model.HouseworkStatus;
 import pl.piotrek.tenants.security.UserPrincipal;
-import pl.piotrek.tenants.util.HouseworkStatus;
 
 import java.util.ArrayList;
 import java.util.List;

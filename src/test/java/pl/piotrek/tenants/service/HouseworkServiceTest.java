@@ -4,13 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import pl.piotrek.tenants.model.HouseworkStatus;
 import pl.piotrek.tenants.model.entity.Housework;
 import pl.piotrek.tenants.model.entity.HouseworkRating;
 import pl.piotrek.tenants.model.entity.User;
 import pl.piotrek.tenants.repository.HouseworkRepository;
 import pl.piotrek.tenants.repository.UserRepository;
 import pl.piotrek.tenants.service.impl.HouseworkServiceImpl;
-import pl.piotrek.tenants.util.HouseworkStatus;
 
 import java.util.Optional;
 

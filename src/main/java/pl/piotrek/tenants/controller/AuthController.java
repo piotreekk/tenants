@@ -7,13 +7,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.piotrek.tenants.api.dto.LoginForm;
 import pl.piotrek.tenants.api.dto.RegisterForm;
+import pl.piotrek.tenants.api.dto.UsernameAvailableDTO;
 import pl.piotrek.tenants.api.response.ApiResponse;
 import pl.piotrek.tenants.api.response.JwtAuthenticationResponse;
 import pl.piotrek.tenants.exception.AppException;
@@ -91,4 +89,15 @@ public class AuthController {
                 .created(location)
                 .body(new ApiResponse(true, "User registered successfully"));
     }
+
+    @GetMapping("/username/available/check")
+    @ResponseStatus(HttpStatus.OK)
+    public UsernameAvailableDTO checkUsernameAvailbility(String email){
+        Boolean isAvailable = !userRepository.existsByEmail(email);
+        UsernameAvailableDTO response = new UsernameAvailableDTO();
+        response.setAvailable(isAvailable);
+        return response;
+    }
+
+
 }

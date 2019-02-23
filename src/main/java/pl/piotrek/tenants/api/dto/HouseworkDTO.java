@@ -2,7 +2,7 @@ package pl.piotrek.tenants.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import pl.piotrek.tenants.util.HouseworkStatus;
+import pl.piotrek.tenants.model.HouseworkStatus;
 
 @Data
 public class HouseworkDTO {

@@ -2,15 +2,16 @@ package pl.piotrek.tenants.service.impl;
 
 import org.springframework.stereotype.Service;
 import pl.piotrek.tenants.exception.ResourceNotFoundException;
+import pl.piotrek.tenants.model.HouseworkStatus;
 import pl.piotrek.tenants.model.entity.Housework;
 import pl.piotrek.tenants.model.entity.HouseworkRating;
 import pl.piotrek.tenants.model.entity.User;
 import pl.piotrek.tenants.repository.HouseworkRepository;
 import pl.piotrek.tenants.repository.UserRepository;
 import pl.piotrek.tenants.service.HouseworkService;
-import pl.piotrek.tenants.util.HouseworkStatus;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +36,7 @@ public class HouseworkServiceImpl implements HouseworkService {
         return houseworkRepository.findAllByHouseId(houseId);
     }
 
+    @Transactional
     @Override
     public Housework assignUserToHousework(Long houseworkId, Long userId) {
         Housework housework = houseworkRepository.findById(houseworkId).get();
@@ -79,5 +81,19 @@ public class HouseworkServiceImpl implements HouseworkService {
                 .orElseThrow(() -> new ResourceNotFoundException("Housework", "id", houseworkId));
 
         return housework.getRatings();
+    }
+
+    @Transactional
+    @Override
+    public Collection<Housework> getUserHouseworks(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+
+        return user.getHouseworks();
+    }
+
+    @Override
+    public Housework addHousework(Housework housework) {
+        return houseworkRepository.save(housework);
     }
 }

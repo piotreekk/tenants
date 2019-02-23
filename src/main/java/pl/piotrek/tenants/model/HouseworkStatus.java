@@ -1,4 +1,4 @@
-package pl.piotrek.tenants.util;
+package pl.piotrek.tenants.model;
 
 public enum HouseworkStatus {
     TO_DO,

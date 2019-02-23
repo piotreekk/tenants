@@ -19,9 +19,7 @@ import pl.piotrek.tenants.security.UserPrincipal;
 import pl.piotrek.tenants.service.HouseworkRatingService;
 import pl.piotrek.tenants.service.HouseworkService;
 
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Collection;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -48,22 +46,52 @@ public class HouseworkController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkDTO> getHousework(@PathVariable Long id) {
         HouseworkDTO houseworkDTO = houseworkMapper.houseworkToHouseworkDTO(houseworkService.getHousework(id));
         return assembler.toResource(houseworkDTO);
     }
 
     @GetMapping("/house/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public HouseworkList getHouseworks(@PathVariable("id") Long houseId) {
-        List<Resource<HouseworkDTO>> list = houseworkService.getHouseworksOf(houseId)
+        HouseworkList houseworkList = new HouseworkList();
+        houseworkService.getHouseworksOf(houseId)
                 .stream()
                 .map(houseworkMapper::houseworkToHouseworkDTO)
                 .map(assembler::toResource)
-                .collect(Collectors.toList());
+                .forEach(houseworkList::addHousework);
 
-        HouseworkList houseworkList = new HouseworkList();
-        houseworkList.setHouseworks(list);
         houseworkList.add(linkTo(methodOn(HouseworkController.class).getHouseworks(houseId)).withSelfRel());
+
+        return houseworkList;
+    }
+
+
+    @GetMapping("/user/current")
+    public HouseworkList getCurrentUserHouseworks(@CurrentUser UserPrincipal userPrincipal){
+        HouseworkList houseworkList = new HouseworkList();
+        houseworkService.getUserHouseworks(userPrincipal.getId())
+                .stream()
+                .map(houseworkMapper::houseworkToHouseworkDTO)
+                .map(assembler::toResource)
+                .forEach(houseworkList::addHousework);
+
+        houseworkList.add(linkTo(methodOn(HouseworkController.class).getCurrentUserHouseworks(userPrincipal)).withSelfRel());
+
+        return houseworkList;
+    }
+
+    @GetMapping("/user/{id}")
+    public HouseworkList getUserHouseworks(@PathVariable Long id){
+        HouseworkList houseworkList = new HouseworkList();
+        houseworkService.getUserHouseworks(id)
+                .stream()
+                .map(houseworkMapper::houseworkToHouseworkDTO)
+                .map(assembler::toResource)
+                .forEach(houseworkList::addHousework);
+
+        houseworkList.add(linkTo(methodOn(HouseworkController.class).getUserHouseworks(id)).withSelfRel());
 
         return houseworkList;
     }
@@ -85,6 +113,7 @@ public class HouseworkController {
 
 
     @PostMapping("/{id}/rate")
+    @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkRatingDTO> rateHousework(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal, @RequestBody HouseworkRatingDTO houseworkRatingDTO){
         HouseworkRating houseworkRatingEntity = houseworkRatingMapper.dtoToEntity(houseworkRatingDTO);
         HouseworkRatingDTO response= houseworkRatingMapper.entityToDto(houseworkService.rateHousework(id, userPrincipal.getId(), houseworkRatingEntity));
@@ -92,9 +121,10 @@ public class HouseworkController {
     }
 
     @GetMapping("{id}/rates")
+    @ResponseStatus(HttpStatus.OK)
     public HouseworkRatingList getRates(@PathVariable("id") Long houseworkId){
         HouseworkRatingList ratingList = new HouseworkRatingList();
-        Set<HouseworkRating> ratingSet = houseworkService.getRatingsForHouswork(houseworkId);
+        Collection<HouseworkRating> ratingSet = houseworkService.getRatingsForHouswork(houseworkId);
         ratingSet.stream()
                 .map(houseworkRatingMapper::entityToDto)
                 .map(ratingAssembler::toResource)
@@ -104,6 +134,7 @@ public class HouseworkController {
     }
 
     @GetMapping("/rate/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkRatingDTO> getRateById(@PathVariable Long id) {
         HouseworkRatingDTO ratingDTO = houseworkRatingMapper.entityToDto(houseworkRatingService.getRatingById(id));
         return ratingAssembler.toResource(ratingDTO);
