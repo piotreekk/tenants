@@ -4,6 +4,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.piotrek.tenants.api.assembler.HouseworkRatingResourceAssembler;
 import pl.piotrek.tenants.api.assembler.HouseworkResourceAssembler;
@@ -13,6 +14,7 @@ import pl.piotrek.tenants.api.dto.HouseworkRatingDTO;
 import pl.piotrek.tenants.api.dto.HouseworkRatingList;
 import pl.piotrek.tenants.api.mapper.HouseworkMapper;
 import pl.piotrek.tenants.api.mapper.HouseworkRatingMapper;
+import pl.piotrek.tenants.model.entity.Housework;
 import pl.piotrek.tenants.model.entity.HouseworkRating;
 import pl.piotrek.tenants.security.CurrentUser;
 import pl.piotrek.tenants.security.UserPrincipal;
@@ -94,6 +96,15 @@ public class HouseworkController {
         houseworkList.add(linkTo(methodOn(HouseworkController.class).getUserHouseworks(id)).withSelfRel());
 
         return houseworkList;
+    }
+
+    @PostMapping("/house/{houseId}")
+    public ResponseEntity<?> createHousework(@RequestBody HouseworkDTO houseworkDTO, @PathVariable Long houseId){
+        Housework savedEntity = houseworkService.addHousework(houseworkMapper.houseworkDtoToHousework(houseworkDTO), houseId);
+        HouseworkDTO savedDto = houseworkMapper.houseworkToHouseworkDTO(savedEntity);
+        return ResponseEntity
+                .created(linkTo(methodOn(HouseworkController.class).getHousework(savedDto.getId())).toUri())
+                .body(assembler.toResource(savedDto));
     }
 
     @PostMapping("/{id}/assign")

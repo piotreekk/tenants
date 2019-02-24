@@ -3,9 +3,11 @@ package pl.piotrek.tenants.service.impl;
 import org.springframework.stereotype.Service;
 import pl.piotrek.tenants.exception.ResourceNotFoundException;
 import pl.piotrek.tenants.model.HouseworkStatus;
+import pl.piotrek.tenants.model.entity.House;
 import pl.piotrek.tenants.model.entity.Housework;
 import pl.piotrek.tenants.model.entity.HouseworkRating;
 import pl.piotrek.tenants.model.entity.User;
+import pl.piotrek.tenants.repository.HouseRepository;
 import pl.piotrek.tenants.repository.HouseworkRepository;
 import pl.piotrek.tenants.repository.UserRepository;
 import pl.piotrek.tenants.service.HouseworkService;
@@ -19,11 +21,13 @@ import java.util.Set;
 public class HouseworkServiceImpl implements HouseworkService {
     private HouseworkRepository houseworkRepository;
     private UserRepository userRepository;
+    private HouseRepository houseRepository;
 
 
-    public HouseworkServiceImpl(HouseworkRepository houseworkRepository, UserRepository userRepository) {
+    public HouseworkServiceImpl(HouseworkRepository houseworkRepository, UserRepository userRepository, HouseRepository houseRepository) {
         this.houseworkRepository = houseworkRepository;
         this.userRepository = userRepository;
+        this.houseRepository = houseRepository;
     }
 
     @Override
@@ -95,5 +99,19 @@ public class HouseworkServiceImpl implements HouseworkService {
     @Override
     public Housework addHousework(Housework housework) {
         return houseworkRepository.save(housework);
+    }
+
+
+    @Override
+    public Housework addHousework(Housework housework, Long houseId) {
+        House house = houseRepository.findById(houseId)
+                .orElseThrow(() -> new ResourceNotFoundException("House", "id", houseId));
+
+        house.addHousework(housework);
+
+        house = houseRepository.save(house);
+
+        // TODO : Poprawic aby zwracac housework utworzony ( w nim beda szczegoly o dacie utworzenia i modyfikacji, których w requescie brakuje);
+        return housework;
     }
 }

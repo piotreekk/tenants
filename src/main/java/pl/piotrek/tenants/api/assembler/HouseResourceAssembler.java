@@ -18,6 +18,7 @@ public class HouseResourceAssembler implements ResourceAssembler<HouseDTO, Resou
         return new Resource<>(house,
                 linkTo(methodOn(HouseController.class).getHouseById(house.getId())).withSelfRel(),
                 linkTo(methodOn(HouseworkController.class).getHouseworks(house.getId())).withRel("houseworks"),
+                linkTo(methodOn(HouseworkController.class).createHousework(null, house.getId())).withRel("add_housework"),
                 linkTo(methodOn(HouseController.class).getHouseList()).withRel("houses"));
     }
 }

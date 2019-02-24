@@ -8,6 +8,7 @@ import pl.piotrek.tenants.model.HouseworkStatus;
 import pl.piotrek.tenants.model.entity.Housework;
 import pl.piotrek.tenants.model.entity.HouseworkRating;
 import pl.piotrek.tenants.model.entity.User;
+import pl.piotrek.tenants.repository.HouseRepository;
 import pl.piotrek.tenants.repository.HouseworkRepository;
 import pl.piotrek.tenants.repository.UserRepository;
 import pl.piotrek.tenants.service.impl.HouseworkServiceImpl;
@@ -31,11 +32,14 @@ public class HouseworkServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private HouseRepository houseRepository;
+
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
 
-        houseworkService = new HouseworkServiceImpl(houseworkRepository, userRepository);
+        houseworkService = new HouseworkServiceImpl(houseworkRepository, userRepository, houseRepository);
     }
 
     @Test

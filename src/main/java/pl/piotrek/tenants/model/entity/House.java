@@ -21,12 +21,17 @@ public class House {
     private Set<User> inhabitants = new HashSet<>();
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
-    private Set<Housework> houseworks;
+    private Set<Housework> houseworks = new HashSet<>();
 
     // helper method to add inhabitant
 
     public void addInhabitant(User user){
         inhabitants.add(user);
         user.getHouses().add(this);
+    }
+
+    public void addHousework(Housework housework){
+        houseworks.add(housework);
+        housework.setHouse(this);
     }
 }
