@@ -92,7 +92,7 @@ public class AuthController {
 
     @GetMapping("/username/available/check")
     @ResponseStatus(HttpStatus.OK)
-    public UsernameAvailableDTO checkUsernameAvailbility(String email){
+    public UsernameAvailableDTO checkUsernameAvailbility(@RequestParam String email){
         Boolean isAvailable = !userRepository.existsByEmail(email);
         UsernameAvailableDTO response = new UsernameAvailableDTO();
         response.setAvailable(isAvailable);
