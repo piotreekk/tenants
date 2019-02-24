@@ -1,19 +1,22 @@
 package pl.piotrek.tenants.service;
 
 import pl.piotrek.tenants.model.entity.House;
+import pl.piotrek.tenants.model.entity.User;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface HouseService {
     House getById(Long id);
 
     House getByAddress(String address);
 
-    List<House> getAll();
+    Collection<House> getAll();
 
     House addHouse(House house);
 
-    List<House> getUserHouses(Long id);
+    Collection<House> getUserHouses(Long id);
 
     void delete(Long id);
+
+    Collection<User> getInhabitantsOf(Long houseId);
 }

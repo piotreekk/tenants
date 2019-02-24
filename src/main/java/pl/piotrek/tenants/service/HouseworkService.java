@@ -5,13 +5,12 @@ import pl.piotrek.tenants.model.entity.Housework;
 import pl.piotrek.tenants.model.entity.HouseworkRating;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface HouseworkService {
 
     Housework getHousework(Long id);
 
-    List<Housework> getHouseworksOf(Long houseId);
+    Collection<Housework> getHouseworksOf(Long houseId);
 
     Collection<Housework> getUserHouseworks(Long id);
 

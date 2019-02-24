@@ -1,6 +1,7 @@
 package pl.piotrek.tenants.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.piotrek.tenants.exception.AppException;
 import pl.piotrek.tenants.exception.ResourceNotFoundException;
 import pl.piotrek.tenants.model.HouseworkStatus;
 import pl.piotrek.tenants.model.entity.House;
@@ -14,7 +15,6 @@ import pl.piotrek.tenants.service.HouseworkService;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -22,7 +22,6 @@ public class HouseworkServiceImpl implements HouseworkService {
     private HouseworkRepository houseworkRepository;
     private UserRepository userRepository;
     private HouseRepository houseRepository;
-
 
     public HouseworkServiceImpl(HouseworkRepository houseworkRepository, UserRepository userRepository, HouseRepository houseRepository) {
         this.houseworkRepository = houseworkRepository;
@@ -32,11 +31,12 @@ public class HouseworkServiceImpl implements HouseworkService {
 
     @Override
     public Housework getHousework(Long id) {
-        return houseworkRepository.findById(id).get();
+        return houseworkRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Housework", "id", id));
     }
 
     @Override
-    public List<Housework> getHouseworksOf(Long houseId) {
+    public Collection<Housework> getHouseworksOf(Long houseId) {
         return houseworkRepository.findAllByHouseId(houseId);
     }
 
@@ -53,9 +53,11 @@ public class HouseworkServiceImpl implements HouseworkService {
 
     @Override
     public Housework finishHousework(Long houseworkId) {
-        Housework housework = houseworkRepository.findById(houseworkId).get();
+        Housework housework = houseworkRepository.findById(houseworkId)
+                .orElseThrow(() -> new ResourceNotFoundException("Housework", "id", houseworkId));
+
         if(housework.getStatus() != HouseworkStatus.IN_PROGRESS)
-            throw new RuntimeException("Can't finish housework not in progress!");
+            throw new AppException("Can't finish housework not in progress!");
 
         housework.setStatus(HouseworkStatus.FINISHED);
 
@@ -72,7 +74,6 @@ public class HouseworkServiceImpl implements HouseworkService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", ratedById));
 
         rating.setUser(user);
-
         housework.addRateToHousework(rating);
 
         return rating;
@@ -101,17 +102,13 @@ public class HouseworkServiceImpl implements HouseworkService {
         return houseworkRepository.save(housework);
     }
 
-
     @Override
     public Housework addHousework(Housework housework, Long houseId) {
         House house = houseRepository.findById(houseId)
                 .orElseThrow(() -> new ResourceNotFoundException("House", "id", houseId));
+        housework.setStatus(HouseworkStatus.TO_DO);
+        housework.setHouse(house);
 
-        house.addHousework(housework);
-
-        house = houseRepository.save(house);
-
-        // TODO : Poprawic aby zwracac housework utworzony ( w nim beda szczegoly o dacie utworzenia i modyfikacji, których w requescie brakuje);
-        return housework;
+        return houseworkRepository.save(housework);
     }
 }

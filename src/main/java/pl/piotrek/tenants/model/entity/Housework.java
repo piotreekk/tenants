@@ -43,5 +43,4 @@ public class Housework extends DateAudit {
         ratings.add(rating);
         rating.setHousework(this);
     }
-
 }

@@ -21,8 +21,11 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 public class HouseworkServiceTest {
-    private final Long USER_ID=1L;
-    private final String USER_NAME="Jan";
+    public static final String HOUSEWORK_NAME = "Some Housework";
+    public static final String COMMENT = "Good Job!";
+    private static final Long USER_ID = 1L;
+    private static final String USER_NAME = "Jan";
+    public static final int RATE = 5;
 
     private HouseworkService houseworkService;
 
@@ -51,14 +54,14 @@ public class HouseworkServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 
         Housework housework = new Housework();
-        housework.setName("Some Housework");
+        housework.setName(HOUSEWORK_NAME);
         housework.setStatus(HouseworkStatus.FINISHED);
 
         when(houseworkRepository.findById(anyLong())).thenReturn(Optional.of(housework));
 
         HouseworkRating rating = new HouseworkRating();
-        rating.setComment("Good Job!");
-        rating.setRate(5);
+        rating.setComment(COMMENT);
+        rating.setRate(RATE);
 
         HouseworkRating result = houseworkService.rateHousework(1L, USER_ID, rating);
 

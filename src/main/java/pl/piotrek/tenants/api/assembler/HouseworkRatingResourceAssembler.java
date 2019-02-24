@@ -16,7 +16,8 @@ public class HouseworkRatingResourceAssembler implements ResourceAssembler<House
     public Resource<HouseworkRatingDTO> toResource(HouseworkRatingDTO houseworkRatingDTO) {
         return new Resource<>(houseworkRatingDTO,
                 linkTo(methodOn(HouseworkController.class).getRateById(houseworkRatingDTO.getId())).withSelfRel(),
-                linkTo(methodOn(HouseworkController.class).getRates(houseworkRatingDTO.getHouseworkId())).withRel("other_rates")
+                linkTo(methodOn(HouseworkController.class).getHouseworkRates(houseworkRatingDTO.getHouseworkId())).withRel("other_rates"),
+                linkTo(methodOn(HouseworkController.class).getHouseworkById(houseworkRatingDTO.getHouseworkId())).withRel("housework")
                 );
     }
 }

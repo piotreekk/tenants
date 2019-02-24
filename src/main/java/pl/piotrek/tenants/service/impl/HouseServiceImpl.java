@@ -2,10 +2,11 @@ package pl.piotrek.tenants.service.impl;
 
 import org.springframework.stereotype.Service;
 import pl.piotrek.tenants.model.entity.House;
+import pl.piotrek.tenants.model.entity.User;
 import pl.piotrek.tenants.repository.HouseRepository;
 import pl.piotrek.tenants.service.HouseService;
 
-import java.util.List;
+import java.util.Collection;
 
 @Service
 public class HouseServiceImpl implements HouseService {
@@ -26,12 +27,12 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public List<House> getAll() {
+    public Collection<House> getAll() {
         return houseRepository.findAll();
     }
 
     @Override
-    public List<House> getUserHouses(Long id) {
+    public Collection<House> getUserHouses(Long id) {
         return houseRepository.findAllByInhabitantsId(id);
     }
 
@@ -43,5 +44,10 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public void delete(Long id) {
         houseRepository.deleteById(id);
+    }
+
+    @Override
+    public Collection<User> getInhabitantsOf(Long houseId) {
+       return houseRepository.findInhabitantsByHouseId(houseId);
     }
 }

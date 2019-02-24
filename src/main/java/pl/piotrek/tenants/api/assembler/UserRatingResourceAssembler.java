@@ -15,7 +15,7 @@ public class UserRatingResourceAssembler implements ResourceAssembler<UserRating
     public Resource<UserRatingDTO> toResource(UserRatingDTO userRatingDTO) {
         return new Resource<>(userRatingDTO,
                 linkTo(methodOn(UserController.class).getUserRating(userRatingDTO.getUserId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).getUserInfo(userRatingDTO.getUserId())).withSelfRel()
+                linkTo(methodOn(UserController.class).getUserInfo(userRatingDTO.getUserId())).withRel("user_info")
                 );
     }
 }

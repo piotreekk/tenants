@@ -9,6 +9,7 @@ import pl.piotrek.tenants.repository.HouseRepository;
 import pl.piotrek.tenants.service.impl.HouseServiceImpl;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -20,11 +21,10 @@ public class HouseServiceTest {
     private static final String CITY = "Lublin";
     private static final String ADDRESS = "Akademicka 9";
 
-    HouseService houseService;
+    private HouseService houseService;
 
     @Mock
-    HouseRepository houseRepository;
-
+    private HouseRepository houseRepository;
 
     @Before
     public void setUp(){
@@ -38,10 +38,9 @@ public class HouseServiceTest {
         // given
         List<House> houseList = Arrays.asList(new House(), new  House(), new House());
 
-
         when(houseRepository.findAll()).thenReturn(houseList);
         // when
-        List<House> houseListFromService = houseService.getAll();
+        Collection<House> houseListFromService = houseService.getAll();
 
         // then
         assertEquals(3, houseListFromService.size());
@@ -65,6 +64,5 @@ public class HouseServiceTest {
         assertEquals(ADDRESS, houseFromService.getAddress());
 
     }
-
 
 }
