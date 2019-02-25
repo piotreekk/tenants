@@ -9,7 +9,7 @@ import pl.piotrek.tenants.model.entity.House;
 public interface HouseMapper {
     HouseMapper INSTANCE = Mappers.getMapper(HouseMapper.class);
 
-    House houseDtoToHouse(HouseDTO houseDTO);
-    HouseDTO houseToHouseDto(House house);
+    House fromEntityToDto(HouseDTO houseDTO);
+    HouseDTO fromDtoToEntity(House house);
 
 }

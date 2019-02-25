@@ -9,4 +9,6 @@ public interface UserService {
     Double getRating(Long id);
 
     User getByEmail(String s);
+
+    User getUserById(Long id);
 }

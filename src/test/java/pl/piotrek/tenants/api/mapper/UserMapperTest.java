@@ -22,7 +22,7 @@ public class UserMapperTest {
 
 
         // when
-        UserDTO userDto = UserMapper.INSTANCE.userToUserDto(user);
+        UserDTO userDto = UserMapper.INSTANCE.fromEntityToDto(user);
 
         // then
         assertEquals(ID, userDto.getId());

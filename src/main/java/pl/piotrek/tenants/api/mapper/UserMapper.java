@@ -9,7 +9,7 @@ import pl.piotrek.tenants.model.entity.User;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    UserDTO userToUserDto(User user);
-    User userDtoToUser(UserDTO userDto);
+    UserDTO fromEntityToDto(User user);
+    User fromDtoToEntity(UserDTO userDto);
 
 }

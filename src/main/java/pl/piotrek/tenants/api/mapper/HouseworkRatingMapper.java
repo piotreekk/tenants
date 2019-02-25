@@ -11,9 +11,9 @@ public interface HouseworkRatingMapper {
     HouseworkRatingMapper INSTANCE = Mappers.getMapper(HouseworkRatingMapper.class);
 
     @Mapping(source = "houseworkId", target = "housework.id")
-    HouseworkRating dtoToEntity(HouseworkRatingDTO houseworkRatingDTO);
+    HouseworkRating fromDtoToEntity(HouseworkRatingDTO houseworkRatingDTO);
 
     @Mapping(source = "housework.id", target = "houseworkId")
-    HouseworkRatingDTO entityToDto(HouseworkRating houseworkRating);
+    HouseworkRatingDTO fromEntityToDto(HouseworkRating houseworkRating);
 
 }

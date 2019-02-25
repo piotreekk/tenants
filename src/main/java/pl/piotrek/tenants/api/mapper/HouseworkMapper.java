@@ -11,7 +11,7 @@ import pl.piotrek.tenants.model.entity.Housework;
 public interface HouseworkMapper {
     HouseworkMapper INSTANCE = Mappers.getMapper(HouseworkMapper.class);
 
-    Housework houseworkDtoToHousework(HouseworkDTO houseworkDTO);
+    Housework fromDtoToEntity(HouseworkDTO houseworkDTO);
 
     @Mappings({
             @Mapping(source = "house.id", target = "houseId"),
@@ -19,5 +19,5 @@ public interface HouseworkMapper {
             @Mapping(source = "updatedDate",  target = "updatedDate", dateFormat = "yyyy-MM-dd'T'HH:mm"),
 
     })
-    HouseworkDTO houseworkToHouseworkDTO(Housework housework);
+    HouseworkDTO fromEntityToDto(Housework housework);
 }

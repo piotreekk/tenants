@@ -51,7 +51,7 @@ public class HouseworkController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkDTO> getHouseworkById(@PathVariable Long id) {
-        HouseworkDTO houseworkDTO = houseworkMapper.houseworkToHouseworkDTO(houseworkService.getHousework(id));
+        HouseworkDTO houseworkDTO = houseworkMapper.fromEntityToDto(houseworkService.getHousework(id));
         return assembler.toResource(houseworkDTO);
     }
 
@@ -61,7 +61,7 @@ public class HouseworkController {
         HouseworkList houseworkList = new HouseworkList();
         houseworkService.getHouseworksOf(houseId)
                 .stream()
-                .map(houseworkMapper::houseworkToHouseworkDTO)
+                .map(houseworkMapper::fromEntityToDto)
                 .map(assembler::toResource)
                 .forEach(houseworkList::addHousework);
 
@@ -72,8 +72,8 @@ public class HouseworkController {
 
     @PostMapping("/house/{houseId}")
     public ResponseEntity<?> createHousework(@RequestBody HouseworkDTO houseworkDTO, @PathVariable Long houseId){
-        Housework savedEntity = houseworkService.addHousework(houseworkMapper.houseworkDtoToHousework(houseworkDTO), houseId);
-        HouseworkDTO savedDto = houseworkMapper.houseworkToHouseworkDTO(savedEntity);
+        Housework savedEntity = houseworkService.addHousework(houseworkMapper.fromDtoToEntity(houseworkDTO), houseId);
+        HouseworkDTO savedDto = houseworkMapper.fromEntityToDto(savedEntity);
         return ResponseEntity
                 .created(linkTo(methodOn(HouseworkController.class).getHouseworkById(savedDto.getId())).toUri())
                 .body(assembler.toResource(savedDto));
@@ -85,7 +85,7 @@ public class HouseworkController {
         HouseworkList houseworkList = new HouseworkList();
         houseworkService.getUserHouseworks(userPrincipal.getId())
                 .stream()
-                .map(houseworkMapper::houseworkToHouseworkDTO)
+                .map(houseworkMapper::fromEntityToDto)
                 .map(assembler::toResource)
                 .forEach(houseworkList::addHousework);
 
@@ -99,7 +99,7 @@ public class HouseworkController {
         HouseworkList houseworkList = new HouseworkList();
         houseworkService.getUserHouseworks(id)
                 .stream()
-                .map(houseworkMapper::houseworkToHouseworkDTO)
+                .map(houseworkMapper::fromEntityToDto)
                 .map(assembler::toResource)
                 .forEach(houseworkList::addHousework);
 
@@ -113,14 +113,14 @@ public class HouseworkController {
     @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkDTO> assignUser(@PathVariable("id") Long houseworkId, @CurrentUser UserPrincipal userPrincipal ) {
         Long userId = userPrincipal.getId();
-        HouseworkDTO houseworkDTO = houseworkMapper.houseworkToHouseworkDTO(houseworkService.assignUserToHousework(houseworkId, userId));
+        HouseworkDTO houseworkDTO = houseworkMapper.fromEntityToDto(houseworkService.assignUserToHousework(houseworkId, userId));
         return assembler.toResource(houseworkDTO);
     }
 
     @PostMapping("/{id}/finish")
     @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkDTO> finishHousework(@PathVariable("id") Long houseworkId) {
-        HouseworkDTO houseworkDTO = houseworkMapper.houseworkToHouseworkDTO(houseworkService.finishHousework(houseworkId));
+        HouseworkDTO houseworkDTO = houseworkMapper.fromEntityToDto(houseworkService.finishHousework(houseworkId));
         return assembler.toResource(houseworkDTO);
     }
 
@@ -128,8 +128,8 @@ public class HouseworkController {
     @PostMapping("/{id}/rate")
     @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkRatingDTO> rateHousework(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal, @RequestBody HouseworkRatingDTO houseworkRatingDTO){
-        HouseworkRating houseworkRatingEntity = houseworkRatingMapper.dtoToEntity(houseworkRatingDTO);
-        HouseworkRatingDTO response= houseworkRatingMapper.entityToDto(houseworkService.rateHousework(id, userPrincipal.getId(), houseworkRatingEntity));
+        HouseworkRating houseworkRatingEntity = houseworkRatingMapper.fromDtoToEntity(houseworkRatingDTO);
+        HouseworkRatingDTO response= houseworkRatingMapper.fromEntityToDto(houseworkService.rateHousework(id, userPrincipal.getId(), houseworkRatingEntity));
         return ratingAssembler.toResource(response);
     }
 
@@ -139,7 +139,7 @@ public class HouseworkController {
         HouseworkRatingList ratingList = new HouseworkRatingList();
         Collection<HouseworkRating> ratingSet = houseworkService.getRatingsForHouswork(houseworkId);
         ratingSet.stream()
-                .map(houseworkRatingMapper::entityToDto)
+                .map(houseworkRatingMapper::fromEntityToDto)
                 .map(ratingAssembler::toResource)
                 .forEach(ratingList::addRating);
 
@@ -149,7 +149,7 @@ public class HouseworkController {
     @GetMapping("/rate/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkRatingDTO> getRateById(@PathVariable Long id) {
-        HouseworkRatingDTO ratingDTO = houseworkRatingMapper.entityToDto(houseworkRatingService.getRatingById(id));
+        HouseworkRatingDTO ratingDTO = houseworkRatingMapper.fromEntityToDto(houseworkRatingService.getRatingById(id));
         return ratingAssembler.toResource(ratingDTO);
     }
 }

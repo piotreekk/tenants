@@ -43,7 +43,7 @@ public class HouseController {
     @ResponseStatus(HttpStatus.OK)
     public HouseList getHouseList(){
         List<Resource<HouseDTO>> housesList = houseService.getAll().stream()
-                .map(houseMapper::houseToHouseDto)
+                .map(houseMapper::fromDtoToEntity)
                 .map(houseResourceAssembler::toResource)
                 .collect(Collectors.toList());
         HouseList resultList = new HouseList();
@@ -56,14 +56,14 @@ public class HouseController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Resource<HouseDTO> getHouseById(@PathVariable Long id){
-        return houseResourceAssembler.toResource(houseMapper.houseToHouseDto(houseService.getById(id)));
+        return houseResourceAssembler.toResource(houseMapper.fromDtoToEntity(houseService.getById(id)));
     }
 
     @GetMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public HouseList getHouseListForUser(@PathVariable Long id){
         List<Resource<HouseDTO>> housesList = houseService.getUserHouses(id).stream()
-                .map(houseMapper::houseToHouseDto)
+                .map(houseMapper::fromDtoToEntity)
                 .map(houseResourceAssembler::toResource)
                 .collect(Collectors.toList());
 
@@ -79,7 +79,7 @@ public class HouseController {
         InhabitantsList inhabitantsList = new InhabitantsList();
         houseService.getInhabitantsOf(houseId)
                 .stream()
-                .map(userMapper::userToUserDto)
+                .map(userMapper::fromEntityToDto)
                 .map(userResourceAssembler::toResource)
                 .forEach(inhabitantsList::addInhabitant);
 
@@ -89,8 +89,8 @@ public class HouseController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Resource<HouseDTO>> addHouse(@Valid @RequestBody HouseDTO houseDTO) {
-        House houseEntity = houseMapper.houseDtoToHouse(houseDTO);
-        HouseDTO created = houseMapper.houseToHouseDto(houseService.addHouse(houseEntity));
+        House houseEntity = houseMapper.fromEntityToDto(houseDTO);
+        HouseDTO created = houseMapper.fromDtoToEntity(houseService.addHouse(houseEntity));
         return ResponseEntity
                 .created(linkTo(methodOn(HouseController.class).getHouseById(created.getId())).toUri())
                 .body(houseResourceAssembler.toResource(created));
