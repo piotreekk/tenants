@@ -24,10 +24,16 @@ public class HouseworkResourceAssembler implements ResourceAssembler<HouseworkDT
         links.add(linkTo(methodOn(HouseworkController.class).getHouseworkById(houseworkDTO.getId())).withSelfRel());
 
         // OPTIONAL LINKS
-        if(houseworkDTO.getStatus() == HouseworkStatus.TO_DO || houseworkDTO.getStatus() == HouseworkStatus.IN_PROGRESS)
+        if(houseworkDTO.getStatus() == HouseworkStatus.TO_DO) {
             links.add(linkTo(methodOn(HouseworkController.class).assignUser(houseworkDTO.getId(), null)).withRel("assign"));
-        if(houseworkDTO.getStatus() == HouseworkStatus.IN_PROGRESS)
+        }
+        else if(houseworkDTO.getStatus() == HouseworkStatus.IN_PROGRESS){
+            links.add(linkTo(methodOn(HouseworkController.class).assignUser(houseworkDTO.getId(), null)).withRel("assign"));
             links.add(linkTo(methodOn(HouseworkController.class).finishHousework(houseworkDTO.getId())).withRel("finish"));
+        }
+        else if(houseworkDTO.getStatus() == HouseworkStatus.FINISHED){
+            links.add(linkTo(methodOn(HouseworkController.class).rateHousework(houseworkDTO.getId(), null, null)).withRel("rate"));
+        }
 
         links.add(linkTo(methodOn(HouseworkController.class).getHouseworks(houseworkDTO.getHouseId())).withRel("houseworks"));
         links.add(linkTo(methodOn(HouseController.class).getHouseById(houseworkDTO.getHouseId())).withRel("house"));

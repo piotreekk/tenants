@@ -18,14 +18,14 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class HouseworkServiceTest {
-    public static final String HOUSEWORK_NAME = "Some Housework";
-    public static final String COMMENT = "Good Job!";
+    private static final String HOUSEWORK_NAME = "Some Housework";
+    private static final String COMMENT = "Good Job!";
     private static final Long USER_ID = 1L;
     private static final String USER_NAME = "Jan";
-    public static final int RATE = 5;
+    private static final int RATE = 5;
 
     private HouseworkService houseworkService;
 
@@ -69,5 +69,7 @@ public class HouseworkServiceTest {
         assertNotNull(result.getHousework());
         assertEquals(result.getUser(), user);
         assertEquals(result.getHousework(), housework);
+        verify(userRepository, times(1)).findById(anyLong());
+        verify(houseworkRepository, times(1)).findById(anyLong());
     }
 }
