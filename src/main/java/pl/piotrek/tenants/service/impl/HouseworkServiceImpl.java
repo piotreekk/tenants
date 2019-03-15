@@ -88,6 +88,11 @@ public class HouseworkServiceImpl implements HouseworkService {
         return housework.getRatings();
     }
 
+    @Override
+    public Double getAvgRatingForHousework(Long houseworkId) {
+        return houseworkRepository.getRatingAvg(houseworkId);
+    }
+
     @Transactional
     @Override
     public Collection<Housework> getUserHouseworks(Long id) {

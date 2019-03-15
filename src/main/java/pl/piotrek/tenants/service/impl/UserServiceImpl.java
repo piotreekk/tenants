@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Double getRating(Long id) {
-        return userRepository.getRatingsAvarage(id);
+        return userRepository.getRatingsAverage(id);
     }
 
     @Override

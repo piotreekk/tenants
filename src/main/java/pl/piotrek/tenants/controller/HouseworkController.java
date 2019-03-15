@@ -52,6 +52,11 @@ public class HouseworkController {
     @ResponseStatus(HttpStatus.OK)
     public Resource<HouseworkDTO> getHouseworkById(@PathVariable Long id) {
         HouseworkDTO houseworkDTO = houseworkMapper.fromEntityToDto(houseworkService.getHousework(id));
+
+        Double rateAVG = houseworkService.getAvgRatingForHousework(houseworkDTO.getId());
+
+        houseworkDTO.setAvgRate(rateAVG);
+
         return assembler.toResource(houseworkDTO);
     }
 

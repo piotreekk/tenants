@@ -22,6 +22,8 @@ public interface HouseworkService {
 
     Collection<HouseworkRating> getRatingsForHouswork(Long houseworkId);
 
+    Double getAvgRatingForHousework(Long houseworkId);
+
     Housework addHousework(Housework housework);
 
     Housework addHousework(Housework housework, Long houseId);

@@ -18,5 +18,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByEmail(String email);
 
     @Query("SELECT AVG(r.rate) FROM User u JOIN u.houseworks h JOIN h.ratings r")
-    Double getRatingsAvarage(Long userId);
+    Double getRatingsAverage(Long userId);
 }

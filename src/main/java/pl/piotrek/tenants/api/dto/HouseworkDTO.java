@@ -13,6 +13,7 @@ public class HouseworkDTO {
     private String scheduledDate;
     private String createdDate;
     private String updatedDate;
+    private Double avgRate;
     @JsonIgnore
     private long houseId;
     private HouseworkStatus status;

@@ -7,7 +7,6 @@ import pl.piotrek.tenants.model.DateAudit;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,22 +23,15 @@ public class User extends DateAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 40)
     private String firstName;
 
-    @NotBlank
-    @Size(max = 40)
     private String lastName;
 
-//    @NaturalId
     @NotBlank
-    @Size(max = 40)
     @Email
     private String email;
 
     @NotBlank
-    @Size(max = 100)
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)
