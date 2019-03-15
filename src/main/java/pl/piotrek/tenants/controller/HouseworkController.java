@@ -63,10 +63,16 @@ public class HouseworkController {
     @GetMapping("/house/{id}")
     @ResponseStatus(HttpStatus.OK)
     public HouseworkList getHouseworks(@PathVariable("id") Long houseId) {
+
         HouseworkList houseworkList = new HouseworkList();
+
         houseworkService.getHouseworksOf(houseId)
                 .stream()
                 .map(houseworkMapper::fromEntityToDto)
+                .map(houseworkDTO -> {
+                    houseworkDTO.setAvgRate(houseworkService.getAvgRatingForHousework(houseworkDTO.getId()));
+                    return houseworkDTO;
+                })
                 .map(assembler::toResource)
                 .forEach(houseworkList::addHousework);
 
