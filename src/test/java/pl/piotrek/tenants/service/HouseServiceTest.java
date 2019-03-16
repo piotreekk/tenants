@@ -11,6 +11,7 @@ import pl.piotrek.tenants.service.impl.HouseServiceImpl;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -55,7 +56,7 @@ public class HouseServiceTest {
         house.setAddress(ADDRESS);
 
         // when
-        when(houseRepository.findByAddress(anyString())).thenReturn(house);
+        when(houseRepository.findByAddress(anyString())).thenReturn(Optional.of(house));
         House houseFromService = houseService.getHouseByAddress(ADDRESS);
 
         // then

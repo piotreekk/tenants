@@ -70,7 +70,7 @@ public class HouseRepositoryTest {
 
         User saved = userRepository.save(user);
 
-        House house = houseRepository.findByAddress(ADDRES_1);
+        House house = houseRepository.findByAddress(ADDRES_1).get();
         house.addInhabitant(saved);
 
         houseRepository.save(house);
