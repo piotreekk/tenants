@@ -64,7 +64,7 @@ public class HouseControllerTest {
 
 
         // when
-        when(houseService.getAll()).thenReturn(List.of(house1, house2));
+        when(houseService.getAllHouses()).thenReturn(List.of(house1, house2));
 
 
         // then
@@ -72,7 +72,7 @@ public class HouseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.houses", hasSize(2)));
 
-        verify(houseService, times(1)).getAll();
+        verify(houseService, times(1)).getAllHouses();
     }
 
     @Test
@@ -84,7 +84,7 @@ public class HouseControllerTest {
         house.setAddress("Akademicka 9");
 
         // when
-        when(houseService.getById(anyLong())).thenReturn(house);
+        when(houseService.getHouseById(anyLong())).thenReturn(house);
 
         // then
         mockMvc.perform(get("/api/house/1").contentType(MediaType.APPLICATION_JSON))

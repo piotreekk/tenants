@@ -42,7 +42,7 @@ public class HouseController {
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public HouseList getHouseList(){
-        List<Resource<HouseDTO>> housesList = houseService.getAll().stream()
+        List<Resource<HouseDTO>> housesList = houseService.getAllHouses().stream()
                 .map(houseMapper::fromDtoToEntity)
                 .map(houseResourceAssembler::toResource)
                 .collect(Collectors.toList());
@@ -56,7 +56,7 @@ public class HouseController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Resource<HouseDTO> getHouseById(@PathVariable Long id){
-        return houseResourceAssembler.toResource(houseMapper.fromDtoToEntity(houseService.getById(id)));
+        return houseResourceAssembler.toResource(houseMapper.fromDtoToEntity(houseService.getHouseById(id)));
     }
 
     @GetMapping("/user/{id}")
@@ -77,7 +77,7 @@ public class HouseController {
     @GetMapping("/{id}/inhabitants")
     public InhabitantsList getInhabitantsOf(@PathVariable("id") Long houseId){
         InhabitantsList inhabitantsList = new InhabitantsList();
-        houseService.getInhabitantsOf(houseId)
+        houseService.getHouseInhabitants(houseId)
                 .stream()
                 .map(userMapper::fromEntityToDto)
                 .map(userResourceAssembler::toResource)

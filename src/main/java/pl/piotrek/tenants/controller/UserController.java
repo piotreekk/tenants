@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("/{id}/rating")
     public Resource<UserRatingDTO> getUserRating(@PathVariable Long id){
-        Double rate = userService.getRating(id);
+        Double rate = userService.getUserRating(id);
         UserRatingDTO ratingDTO = new UserRatingDTO();
         ratingDTO.setRate(rate);
 

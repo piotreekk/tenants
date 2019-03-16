@@ -72,4 +72,6 @@ public class HouseworkServiceTest {
         verify(userRepository, times(1)).findById(anyLong());
         verify(houseworkRepository, times(1)).findById(anyLong());
     }
+
+
 }

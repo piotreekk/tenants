@@ -40,7 +40,7 @@ public class HouseServiceTest {
 
         when(houseRepository.findAll()).thenReturn(houseList);
         // when
-        Collection<House> houseListFromService = houseService.getAll();
+        Collection<House> houseListFromService = houseService.getAllHouses();
 
         // then
         assertEquals(3, houseListFromService.size());
@@ -56,7 +56,7 @@ public class HouseServiceTest {
 
         // when
         when(houseRepository.findByAddress(anyString())).thenReturn(house);
-        House houseFromService = houseService.getByAddress(ADDRESS);
+        House houseFromService = houseService.getHouseByAddress(ADDRESS);
 
         // then
         assertEquals(ID, houseFromService.getId());

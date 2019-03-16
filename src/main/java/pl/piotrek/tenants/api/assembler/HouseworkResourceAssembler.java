@@ -37,6 +37,7 @@ public class HouseworkResourceAssembler implements ResourceAssembler<HouseworkDT
 
         }
 
+        links.add(linkTo(methodOn(HouseworkController.class).getHouseworkUsers(houseworkDTO.getId())).withRel("users"));
         links.add(linkTo(methodOn(HouseworkController.class).getHouseworks(houseworkDTO.getHouseId())).withRel("houseworks"));
         links.add(linkTo(methodOn(HouseController.class).getHouseById(houseworkDTO.getHouseId())).withRel("house"));
 

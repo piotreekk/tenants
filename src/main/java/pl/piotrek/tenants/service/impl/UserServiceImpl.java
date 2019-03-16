@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Double getRating(Long id) {
+    public Double getUserRating(Long id) {
         return userRepository.getRatingsAverage(id);
     }
 
     @Override
-    public User getByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
     }

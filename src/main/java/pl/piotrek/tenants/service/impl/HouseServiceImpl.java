@@ -1,6 +1,7 @@
 package pl.piotrek.tenants.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.piotrek.tenants.exception.ResourceNotFoundException;
 import pl.piotrek.tenants.model.entity.House;
 import pl.piotrek.tenants.model.entity.User;
 import pl.piotrek.tenants.repository.HouseRepository;
@@ -17,23 +18,25 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public House getById(Long id) {
-        return houseRepository.findById(id).get();
+    public House getHouseById(Long id) {
+        return houseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("House", "id", id));
     }
 
     @Override
-    public House getByAddress(String address) {
-        return houseRepository.findByAddress(address);
+    public House getHouseByAddress(String address) {
+        return houseRepository.findByAddress(address)
+                .orElseThrow(() -> new ResourceNotFoundException("House", "address", address));
     }
 
     @Override
-    public Collection<House> getAll() {
+    public Collection<House> getAllHouses() {
         return houseRepository.findAll();
     }
 
     @Override
-    public Collection<House> getUserHouses(Long id) {
-        return houseRepository.findAllByInhabitantsId(id);
+    public Collection<House> getUserHouses(Long userId) {
+        return houseRepository.findAllByInhabitantsId(userId);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public Collection<User> getInhabitantsOf(Long houseId) {
+    public Collection<User> getHouseInhabitants(Long houseId) {
        return houseRepository.findInhabitantsByHouseId(houseId);
     }
 }

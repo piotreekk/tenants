@@ -44,7 +44,9 @@ public class HouseworkServiceImpl implements HouseworkService {
     @Override
     public Housework assignUserToHousework(Long houseworkId, Long userId) {
         Housework housework = houseworkRepository.findById(houseworkId).get();
+
         User user = userRepository.findById(userId).get();
+
         housework.addUserToHousework(user);
         housework.setStatus(HouseworkStatus.IN_PROGRESS);
 
@@ -74,6 +76,7 @@ public class HouseworkServiceImpl implements HouseworkService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", ratedById));
 
         rating.setUser(user);
+
         housework.addRateToHousework(rating);
 
         return rating;
@@ -95,9 +98,9 @@ public class HouseworkServiceImpl implements HouseworkService {
 
     @Transactional
     @Override
-    public Collection<Housework> getUserHouseworks(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    public Collection<Housework> getUserHouseworks(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         return user.getHouseworks();
     }
@@ -111,9 +114,15 @@ public class HouseworkServiceImpl implements HouseworkService {
     public Housework addHousework(Housework housework, Long houseId) {
         House house = houseRepository.findById(houseId)
                 .orElseThrow(() -> new ResourceNotFoundException("House", "id", houseId));
+
         housework.setStatus(HouseworkStatus.TO_DO);
         housework.setHouse(house);
 
         return houseworkRepository.save(housework);
+    }
+
+    @Override
+    public Collection<User> getHouseworkUsers(Long houseworkId) {
+        return houseworkRepository.findUsersAssignedToHousework(houseworkId);
     }
 }

@@ -3,6 +3,7 @@ package pl.piotrek.tenants.service;
 
 import pl.piotrek.tenants.model.entity.Housework;
 import pl.piotrek.tenants.model.entity.HouseworkRating;
+import pl.piotrek.tenants.model.entity.User;
 
 import java.util.Collection;
 
@@ -12,7 +13,7 @@ public interface HouseworkService {
 
     Collection<Housework> getHouseworksOf(Long houseId);
 
-    Collection<Housework> getUserHouseworks(Long id);
+    Collection<Housework> getUserHouseworks(Long userId);
 
     Housework assignUserToHousework(Long houseworkId, Long userId);
 
@@ -27,4 +28,6 @@ public interface HouseworkService {
     Housework addHousework(Housework housework);
 
     Housework addHousework(Housework housework, Long houseId);
+
+    Collection<User> getHouseworkUsers(Long houseworkId);
 }

@@ -8,10 +8,11 @@ import pl.piotrek.tenants.model.entity.House;
 import pl.piotrek.tenants.model.entity.User;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public interface HouseRepository extends JpaRepository<House, Long> {
-    House findByAddress(String address);
+    Optional<House> findByAddress(String address);
 
     Collection<House> findAllByInhabitantsId(Long id);
 

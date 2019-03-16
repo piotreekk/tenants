@@ -15,6 +15,8 @@ import pl.piotrek.tenants.service.HouseService;
 import pl.piotrek.tenants.service.HouseworkService;
 import pl.piotrek.tenants.service.UserService;
 
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -52,8 +54,8 @@ public class FirstIntegrationTest {
 
     @Test
     public void userRateTest(){
-        User user = userService.getByEmail(U1_EMAIL);
-        Double rate = userService.getRating(user.getId());
+        User user = userService.getUserByEmail(U1_EMAIL);
+        Double rate = userService.getUserRating(user.getId());
 
         assertEquals(rate, Double.valueOf(EXPERCTED_USER_RATE_AVG));
     }
@@ -62,6 +64,12 @@ public class FirstIntegrationTest {
     public void houseworkRateTest(){
         Double houseworkAvgRate = houseworkService.getAvgRatingForHousework(HOUSEWORK_ID);
         assertEquals(Double.valueOf(RATE_1), houseworkAvgRate);
+    }
+
+    @Test
+    public void assignedUsersTest(){
+        Collection<User> users = houseworkService.getHouseworkUsers(HOUSEWORK_ID);
+        assertEquals(1, users.size());
     }
 
     private void addHouseWithInhabitants(){
@@ -91,10 +99,10 @@ public class FirstIntegrationTest {
 
 
     public void addFinishedHouseworksWithRates(){
-        User userWhoIsRated = userService.getByEmail(U1_EMAIL);
-        User userWhoRate = userService.getByEmail(U2_EMAIL);
+        User userWhoIsRated = userService.getUserByEmail(U1_EMAIL);
+        User userWhoRate = userService.getUserByEmail(U2_EMAIL);
 
-        House house = houseService.getById(HOUSE_ID);
+        House house = houseService.getHouseById(HOUSE_ID);
 
         Housework housework = new Housework();
         housework.setHouse(house);
