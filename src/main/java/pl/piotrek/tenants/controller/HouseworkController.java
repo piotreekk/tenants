@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.piotrek.tenants.api.assembler.HouseworkRatingResourceAssembler;
 import pl.piotrek.tenants.api.assembler.HouseworkResourceAssembler;
-import pl.piotrek.tenants.api.dto.HouseworkDTO;
-import pl.piotrek.tenants.api.dto.HouseworkList;
-import pl.piotrek.tenants.api.dto.HouseworkRatingDTO;
-import pl.piotrek.tenants.api.dto.HouseworkRatingList;
+import pl.piotrek.tenants.api.dto.*;
 import pl.piotrek.tenants.api.mapper.HouseworkMapper;
 import pl.piotrek.tenants.api.mapper.HouseworkRatingMapper;
 import pl.piotrek.tenants.model.entity.Housework;
@@ -162,5 +159,10 @@ public class HouseworkController {
     public Resource<HouseworkRatingDTO> getRateById(@PathVariable Long id) {
         HouseworkRatingDTO ratingDTO = houseworkRatingMapper.fromEntityToDto(houseworkRatingService.getRatingById(id));
         return ratingAssembler.toResource(ratingDTO);
+    }
+
+    @GetMapping("/{id}/users")
+    public Resource<UserList> getHouseworkUsers(@PathVariable("id") Long houseworkId){
+        return null;
     }
 }

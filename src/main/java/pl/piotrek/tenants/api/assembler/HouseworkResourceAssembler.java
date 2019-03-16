@@ -33,6 +33,8 @@ public class HouseworkResourceAssembler implements ResourceAssembler<HouseworkDT
         }
         else if(houseworkDTO.getStatus() == HouseworkStatus.FINISHED){
             links.add(linkTo(methodOn(HouseworkController.class).rateHousework(houseworkDTO.getId(), null, null)).withRel("rate"));
+            links.add(linkTo(methodOn(HouseworkController.class).getHouseworkRates(houseworkDTO.getId())).withRel("rates"));
+
         }
 
         links.add(linkTo(methodOn(HouseworkController.class).getHouseworks(houseworkDTO.getHouseId())).withRel("houseworks"));
